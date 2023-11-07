@@ -1,9 +1,12 @@
 import Image from 'next/image';
+import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 
 export default function Home() {
   return (
     <main>
-      <h1>Hello Hengry</h1>
+      <div className='flex items-center justify-center h-screen'>
+        <WalletMultiButton />
+      </div>
     </main>
   );
 }

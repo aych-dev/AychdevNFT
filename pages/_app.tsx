@@ -1,6 +1,6 @@
 import { AppProps } from 'next/app';
 import '../styles/globals.css';
-import Wallet from '@/component/Wallet';
+import Wallet from '@/component/WalletProvider';
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (

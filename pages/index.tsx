@@ -5,7 +5,9 @@ export default function Home() {
   return (
     <main>
       <div className='flex items-center justify-center h-screen'>
-        <WalletMultiButton />
+        <div className='bg-gray-300 p-8 rounded-full'>
+          <WalletMultiButton />
+        </div>
       </div>
     </main>
   );

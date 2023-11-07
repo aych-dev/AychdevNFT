@@ -34,10 +34,7 @@ const Wallet = ({ children }: { children: ReactNode }) => {
       config={{ commitment: 'confirmed' }}
     >
       <WalletProvider wallets={wallets} autoConnect>
-        <WalletModalProvider>
-          {children}{' '}
-          {/* Your app's components go here, nested within the context providers. */}
-        </WalletModalProvider>
+        <WalletModalProvider>{children}</WalletModalProvider>
       </WalletProvider>
     </ConnectionProvider>
   );

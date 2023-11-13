@@ -1,11 +1,13 @@
 import dynamic from 'next/dynamic';
-import { Umi } from '@metaplex-foundation/umi';
+import { Umi, publicKey } from '@metaplex-foundation/umi';
 import { Dispatch, SetStateAction, useState, useEffect } from 'react';
 import {
   CandyMachine,
   CandyGuard,
   fetchCandyMachine,
+  safeFetchCandyGuard,
 } from '@metaplex-foundation/mpl-candy-machine';
+import { toast } from 'react-toastify';
 
 const WalletMultiButtonDynamic = dynamic(
   async () =>
@@ -21,23 +23,21 @@ const useCandyMachine = (
 ) => {
   const [candyMachine, setCandyMachine] = useState<CandyMachine>();
   const [candyGuard, setCandyGuard] = useState<CandyGuard>();
-  const toast = useToast();
 
   useEffect(() => {
     (async () => {
       if (checkEligibility) {
+        let toastPromise = toast('Checking for CM');
         if (!candyMachineId) {
           console.error('No candy machine in .env!');
-          if (!toast.isActive('no-cm')) {
-            toast({
-              id: 'no-cm',
-              title: 'No candy machine in .env!',
-              description: 'Add your candy machine address to the .env file!',
-              status: 'error',
-              duration: 999999,
-              isClosable: true,
-            });
-          }
+          toast.update(toastPromise, {
+            render: 'No Candy Machine found',
+            type: 'error',
+            autoClose: 2000,
+            theme: 'dark',
+            icon: '🔒',
+            isLoading: false,
+          });
           return;
         }
 
@@ -49,13 +49,13 @@ const useCandyMachine = (
           );
         } catch (e) {
           console.error(e);
-          toast({
-            id: 'no-cm-found',
-            title: 'The CM from .env is invalid',
-            description: 'Are you using the correct environment?',
-            status: 'error',
-            duration: 999999,
-            isClosable: true,
+          toast.update(toastPromise, {
+            render: 'No Candy Machine found',
+            type: 'error',
+            autoClose: 2000,
+            theme: 'dark',
+            icon: '🔒',
+            isLoading: false,
           });
         }
         setCandyMachine(candyMachine);
@@ -70,13 +70,13 @@ const useCandyMachine = (
           );
         } catch (e) {
           console.error(e);
-          toast({
-            id: 'no-guard-found',
-            title: 'No Candy Guard found!',
-            description: 'Do you have one assigned?',
-            status: 'error',
-            duration: 999999,
-            isClosable: true,
+          toast.update(toastPromise, {
+            render: 'No Candy Guard found',
+            type: 'error',
+            autoClose: 2000,
+            theme: 'dark',
+            icon: '🔒',
+            isLoading: false,
           });
         }
         if (!candyGuard) {

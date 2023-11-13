@@ -1,5 +1,5 @@
 import dynamic from 'next/dynamic';
-import { Umi, publicKey } from '@metaplex-foundation/umi';
+import { Umi, publicKey, PublicKey } from '@metaplex-foundation/umi';
 import { Dispatch, SetStateAction, useState, useEffect } from 'react';
 import {
   CandyMachine,
@@ -8,6 +8,12 @@ import {
   safeFetchCandyGuard,
 } from '@metaplex-foundation/mpl-candy-machine';
 import { toast } from 'react-toastify';
+import { useUmi } from '@/utils/useUmi';
+import {
+  JsonMetadata,
+  DigitalAssetWithToken,
+} from '@metaplex-foundation/mpl-token-metadata';
+import { GuardReturn } from '@/utils/checkerHelper';
 
 const WalletMultiButtonDynamic = dynamic(
   async () =>
@@ -92,6 +98,19 @@ const useCandyMachine = (
 };
 
 export default function Home() {
+  const umi = useUmi();
+  const [mintsCreated, setMintsCreated] = useState<
+    | { mint: PublicKey; offChainMetadata: JsonMetadata | undefined }[]
+    | undefined
+  >();
+  const [isAllowed, setIsAllowed] = useState<boolean>(false);
+  const [loading, setLoading] = useState(true);
+  const [ownedTokens, setOwnedTokens] = useState<DigitalAssetWithToken[]>();
+  const [guards, setGuards] = useState<GuardReturn[]>([
+    { label: 'startDefault', allowed: false },
+  ]);
+  const [checkEligibility, setCheckEligibility] = useState<boolean>(true);
+
   return (
     <main>
       <div className='flex items-center justify-center h-screen'>

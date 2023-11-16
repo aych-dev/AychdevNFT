@@ -18,10 +18,9 @@ import { sol } from '@metaplex-foundation/js';
 
 const RPC = process.env.NEXT_PUBLIC_RPC_ENDPOINT;
 const candyMachineId = process.env.NEXT_PUBLIC_CANDY_MACHINE_ID;
-const collectionMintId = process.env.COLLECTION_MINT_ID;
 
 export const publicMint = async (wallet: WalletContextState) => {
-  if (!RPC || !candyMachineId || !collectionMintId) {
+  if (!RPC || !candyMachineId) {
     console.error('No id');
     return;
   }

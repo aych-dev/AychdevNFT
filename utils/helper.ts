@@ -22,6 +22,7 @@ const collectionMintId = process.env.COLLECTION_MINT_ID;
 
 export const publicMint = async (wallet: WalletContextState) => {
   if (!RPC || !candyMachineId || !collectionMintId) {
+    console.error('No id');
     return;
   }
 
@@ -32,17 +33,16 @@ export const publicMint = async (wallet: WalletContextState) => {
   const candyGuard = await fetchCandyGuard(umi, candyMachine.mintAuthority);
   const nftMint = generateSigner(umi);
 
-  const tx = transactionBuilder()
+  await transactionBuilder()
     .add(setComputeUnitLimit(umi, { units: 800_000 }))
     .add(
       mintV2(umi, {
         candyMachine: candyMachine.publicKey,
         nftMint,
-        collectionMint: publicKey(collectionMintId),
+        collectionMint: candyMachine.collectionMint,
         tokenStandard: candyMachine.tokenStandard,
         candyGuard: candyGuard.publicKey,
         collectionUpdateAuthority: candyMachine.authority,
-        group: some('Public'),
         mintArgs: {
           solPayment: some({
             lamports: sol(0.1),
@@ -52,6 +52,6 @@ export const publicMint = async (wallet: WalletContextState) => {
           }),
         },
       })
-    );
-  return { tx: tx, mint: nftMint.publicKey };
+    )
+    .sendAndConfirm(umi);
 };

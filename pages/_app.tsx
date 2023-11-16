@@ -1,4 +1,7 @@
-import { WalletProvider } from '@solana/wallet-adapter-react';
+import {
+  WalletProvider,
+  ConnectionProvider,
+} from '@solana/wallet-adapter-react';
 import { WalletModalProvider } from '@solana/wallet-adapter-react-ui';
 import {
   AlphaWalletAdapter,
@@ -8,7 +11,6 @@ import {
 } from '@solana/wallet-adapter-wallets';
 import type { AppProps } from 'next/app';
 import { useMemo } from 'react';
-import { UmiProvider } from '../utils/UmiProvider';
 import { ToastContainer } from 'react-toastify';
 import '@/styles/globals.css';
 import '@solana/wallet-adapter-react-ui/styles.css';
@@ -31,11 +33,11 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <>
       <WalletProvider wallets={wallets}>
-        <UmiProvider endpoint={endpoint}>
+        <ConnectionProvider endpoint={endpoint}>
           <WalletModalProvider>
             <Component {...pageProps} />
           </WalletModalProvider>
-        </UmiProvider>
+        </ConnectionProvider>
       </WalletProvider>
       <ToastContainer position='top-center' />
     </>

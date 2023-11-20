@@ -31,7 +31,6 @@ export const publicMint = async (wallet: WalletContextState) => {
   const candyMachine = await fetchCandyMachine(umi, publicKey(candyMachineId));
   const candyGuard = await fetchCandyGuard(umi, candyMachine.mintAuthority);
   const nftMint = generateSigner(umi);
-  console.log(candyMachine);
 
   await transactionBuilder()
     .add(setComputeUnitLimit(umi, { units: 800_000 }))

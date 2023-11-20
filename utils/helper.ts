@@ -10,7 +10,6 @@ const candyMachineId = process.env.NEXT_PUBLIC_CANDY_MACHINE_ID;
 
 export const useCandyMachine = async () => {
   if (!RPC || !candyMachineId) {
-    console.log('No ID');
     return;
   }
   const umi = createUmi(RPC);
@@ -19,5 +18,5 @@ export const useCandyMachine = async () => {
     publicKey(candyMachineId)
   );
 
-  return { candyMachine };
+  return candyMachine;
 };

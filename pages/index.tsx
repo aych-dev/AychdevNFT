@@ -1,7 +1,7 @@
 import dynamic from 'next/dynamic';
 import { useWallet } from '@solana/wallet-adapter-react';
 import { Connection } from '@solana/web3.js';
-import { publicMint } from '@/utils/mint';
+import { publicMint } from '@/utils/publicMint';
 import { useCandyMachine } from '@/utils/helper';
 import { CandyMachine } from '@metaplex-foundation/mpl-candy-machine';
 import { useEffect, useState } from 'react';
@@ -30,37 +30,41 @@ export default function Home() {
 
   return (
     <main>
-      <div className='flex items-center justify-center h-screen'>
-        <div className='bg-gray-300 p-8 rounded'>
-          <div>
-            {isLoading ? (
-              <div>
-                <span className='loading loading-spinner'></span>
-              </div>
-            ) : (
-              <h1 className='text-purple-600 font-bold'>
-                NFTs Available:{' '}
-                <span className='font-bold text-black'>
-                  {Number(candyMachine?.data?.itemsAvailable) -
-                    Number(candyMachine?.itemsRedeemed)}
-                </span>
-              </h1>
-            )}
+      <div className='items-center justify-center flex h-screen'>
+        <div className='bg-gray-300 rounded p-60 relative'>
+          <div className='flex items-center justify-center'>
+            <div className='absolute top-0 mt-4'>
+              <WalletMultiButtonDynamic />
+            </div>
           </div>
-          <WalletMultiButtonDynamic />
-          <div className='p-2'>
-            {wallet.publicKey ? (
-              <button
-                className=' p-2 border border-black rounded min-w-fit'
-                onClick={() => publicMint(wallet)}
-              >
-                Mint
-              </button>
-            ) : (
-              <button className=' p-2 border border-black rounded min-w-fit'>
-                Connect Wallet
-              </button>
-            )}
+          <div className='grid grid-col items-center justify-center'>
+            <div className='flex items-center justify-center'>
+              {isLoading ? (
+                <div>
+                  <span className='loading loading-spinner'></span>
+                </div>
+              ) : (
+                <h1 className='text-purple-600 font-bold'>
+                  NFTs Available:{' '}
+                  <span className='font-bold text-black'>
+                    {Number(candyMachine?.data?.itemsAvailable) -
+                      Number(candyMachine?.itemsRedeemed)}
+                  </span>
+                </h1>
+              )}
+            </div>
+            <div className='p-2 items-center justify-center flex'>
+              {wallet.publicKey ? (
+                <button
+                  className='btn  btn-primary'
+                  onClick={() => publicMint(wallet)}
+                >
+                  Mint
+                </button>
+              ) : (
+                <button disabled={true}>Connect Wallet</button>
+              )}
+            </div>
           </div>
         </div>
       </div>

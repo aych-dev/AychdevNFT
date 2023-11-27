@@ -1,10 +1,8 @@
 import dynamic from 'next/dynamic';
-import { useWallet } from '@solana/wallet-adapter-react';
-import { Connection } from '@solana/web3.js';
-import { publicMint } from '@/utils/publicMint';
 import { useCandyMachine } from '@/utils/helper';
 import { CandyMachine } from '@metaplex-foundation/mpl-candy-machine';
 import { useEffect, useState } from 'react';
+import Mint from '@/components/Mint';
 
 const WalletMultiButtonDynamic = dynamic(
   async () =>
@@ -13,11 +11,10 @@ const WalletMultiButtonDynamic = dynamic(
 );
 
 export default function Home() {
-  const wallet = useWallet();
-  const RPC = process.env.NEXT_PUBLIC_RPC_ENDPOINT!;
-  const connection = new Connection(RPC, 'confirmed');
   const [candyMachine, setCandyMachine] = useState<CandyMachine>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isMinting, setIsMinting] = useState<boolean>(false);
+
   console.log(isLoading);
   useEffect(() => {
     const fetchCandyMachine = async () => {
@@ -53,18 +50,7 @@ export default function Home() {
                 </h1>
               )}
             </div>
-            <div className='p-2 items-center justify-center flex'>
-              {wallet.publicKey ? (
-                <button
-                  className='btn  btn-primary'
-                  onClick={() => publicMint(wallet)}
-                >
-                  Mint
-                </button>
-              ) : (
-                <button disabled={true}>Connect Wallet</button>
-              )}
-            </div>
+            <Mint isMinting={isMinting} setIsMinting={setIsMinting} />
           </div>
         </div>
       </div>

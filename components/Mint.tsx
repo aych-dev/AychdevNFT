@@ -9,12 +9,16 @@ interface MintProps {
 
 const Mint = ({ isMinting, setIsMinting }: MintProps) => {
   const wallet = useWallet();
+  console.log(isMinting);
 
   return (
     <div className='p-2 items-center justify-center flex'>
       {wallet.publicKey ? (
-        <button className='btn  btn-primary' onClick={() => publicMint(wallet)}>
-          Mint
+        <button
+          className='btn  btn-primary'
+          onClick={() => publicMint(wallet, setIsMinting)}
+        >
+          {isMinting ? 'Minting...' : 'Mint'}
         </button>
       ) : (
         <button disabled={true}>Connect Wallet</button>

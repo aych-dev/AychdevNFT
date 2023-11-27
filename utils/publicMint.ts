@@ -15,16 +15,20 @@ import {
 } from '@metaplex-foundation/umi';
 import { setComputeUnitLimit } from '@metaplex-foundation/mpl-toolbox';
 import { sol } from '@metaplex-foundation/js';
+import { Dispatch, SetStateAction } from 'react';
 
 const RPC = process.env.NEXT_PUBLIC_RPC_ENDPOINT;
 const candyMachineId = process.env.NEXT_PUBLIC_CANDY_MACHINE_ID;
 
-export const publicMint = async (wallet: WalletContextState) => {
+export const publicMint = async (
+  wallet: WalletContextState,
+  setIsMinting: Dispatch<SetStateAction<boolean>>
+) => {
   if (!RPC || !candyMachineId) {
     console.error('No id');
     return;
   }
-
+  setIsMinting(true);
   const umi = createUmi(RPC)
     .use(walletAdapterIdentity(wallet))
     .use(mplCandyMachine());

@@ -16,6 +16,7 @@ import {
 import { setComputeUnitLimit } from '@metaplex-foundation/mpl-toolbox';
 import { sol } from '@metaplex-foundation/js';
 import { Dispatch, SetStateAction } from 'react';
+import { toast } from 'react-toastify';
 
 const RPC = process.env.NEXT_PUBLIC_RPC_ENDPOINT;
 const candyMachineId = process.env.NEXT_PUBLIC_CANDY_MACHINE_ID;
@@ -28,7 +29,11 @@ export const publicMint = async (
     console.error('No id');
     return;
   }
+
   setIsMinting(true);
+  let toastPromise = toast.loading('Checking Your Wallet...', {
+    theme: 'dark',
+  });
   const umi = createUmi(RPC)
     .use(walletAdapterIdentity(wallet))
     .use(mplCandyMachine());
@@ -36,25 +41,44 @@ export const publicMint = async (
   const candyGuard = await fetchCandyGuard(umi, candyMachine.mintAuthority);
   const nftMint = generateSigner(umi);
 
-  await transactionBuilder()
-    .add(setComputeUnitLimit(umi, { units: 800_000 }))
-    .add(
-      mintV2(umi, {
-        candyMachine: candyMachine.publicKey,
-        nftMint,
-        collectionMint: candyMachine.collectionMint,
-        tokenStandard: candyMachine.tokenStandard,
-        candyGuard: candyGuard.publicKey,
-        collectionUpdateAuthority: candyMachine.authority,
-        mintArgs: {
-          solPayment: some({
-            lamports: sol(0.1),
-            destination: publicKey(
-              'E8nesKaD6AF61YJqDZs217guz2oSfN24ooaaZtuXGAo6'
-            ),
-          }),
-        },
-      })
-    )
-    .sendAndConfirm(umi);
+  try {
+    toast.update(toastPromise, {
+      render: 'Minting...',
+      type: 'info',
+      autoClose: false,
+      theme: 'dark',
+      isLoading: true,
+    });
+    await transactionBuilder()
+      .add(setComputeUnitLimit(umi, { units: 800_000 }))
+      .add(
+        mintV2(umi, {
+          candyMachine: candyMachine.publicKey,
+          nftMint,
+          collectionMint: candyMachine.collectionMint,
+          tokenStandard: candyMachine.tokenStandard,
+          candyGuard: candyGuard.publicKey,
+          collectionUpdateAuthority: candyMachine.authority,
+          mintArgs: {
+            solPayment: some({
+              lamports: sol(0.1),
+              destination: publicKey(
+                'E8nesKaD6AF61YJqDZs217guz2oSfN24ooaaZtuXGAo6'
+              ),
+            }),
+          },
+        })
+      )
+      .sendAndConfirm(umi);
+  } catch (e) {
+    setIsMinting(false);
+    toast.update(toastPromise, {
+      render: 'Error minting, please check wallet',
+      type: 'error',
+      autoClose: 2000,
+      theme: 'dark',
+      icon: '🔒',
+      isLoading: false,
+    });
+  }
 };

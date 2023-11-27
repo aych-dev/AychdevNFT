@@ -3,6 +3,8 @@ import { useCandyMachine } from '@/utils/helper';
 import { CandyMachine } from '@metaplex-foundation/mpl-candy-machine';
 import { useEffect, useState } from 'react';
 import Mint from '@/components/Mint';
+import Image from 'next/image';
+import AychDevNft from '../public/aychdevnft.png';
 
 const WalletMultiButtonDynamic = dynamic(
   async () =>
@@ -26,32 +28,36 @@ export default function Home() {
   }, []);
 
   return (
-    <main>
-      <div className='items-center justify-center flex h-screen'>
-        <div className='bg-gray-300 rounded p-60 relative'>
+    <main className='flex items-center justify-center h-screen'>
+      <div className='bg-gray-300 rounded border shadow-sm flex-grow'>
+        <div className='flex items-center justify-center'>
+          <div className='mb-12 p-2'>
+            <WalletMultiButtonDynamic />
+          </div>
+        </div>
+        <div className='grid grid-col items-center justify-center'>
+          <div>
+            <Image src={AychDevNft} alt='aychdev' height={200} />
+          </div>
+          <h1 className='text-purple-800 font-bold font-serif text-3xl p-2 flex items-center justify-center'>
+            AychNFT
+          </h1>
           <div className='flex items-center justify-center'>
-            <div className='absolute top-0 mt-4'>
-              <WalletMultiButtonDynamic />
-            </div>
+            {isLoading ? (
+              <div>
+                <span className='loading loading-spinner'></span>
+              </div>
+            ) : (
+              <h1 className='text-purple-600 font-bold'>
+                NFTs Available:{' '}
+                <span className='font-bold text-black'>
+                  {Number(candyMachine?.data?.itemsAvailable) -
+                    Number(candyMachine?.itemsRedeemed)}
+                </span>
+              </h1>
+            )}
           </div>
-          <div className='grid grid-col items-center justify-center'>
-            <div className='flex items-center justify-center'>
-              {isLoading ? (
-                <div>
-                  <span className='loading loading-spinner'></span>
-                </div>
-              ) : (
-                <h1 className='text-purple-600 font-bold'>
-                  NFTs Available:{' '}
-                  <span className='font-bold text-black'>
-                    {Number(candyMachine?.data?.itemsAvailable) -
-                      Number(candyMachine?.itemsRedeemed)}
-                  </span>
-                </h1>
-              )}
-            </div>
-            <Mint isMinting={isMinting} setIsMinting={setIsMinting} />
-          </div>
+          <Mint isMinting={isMinting} setIsMinting={setIsMinting} />
         </div>
       </div>
     </main>

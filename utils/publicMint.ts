@@ -49,7 +49,7 @@ export const publicMint = async (
       theme: 'dark',
       isLoading: true,
     });
-    await transactionBuilder()
+    const tx = await transactionBuilder()
       .add(setComputeUnitLimit(umi, { units: 800_000 }))
       .add(
         mintV2(umi, {
@@ -70,6 +70,16 @@ export const publicMint = async (
         })
       )
       .sendAndConfirm(umi);
+    if (tx.result.value.err === null) {
+      setIsMinting(false);
+      toast.update(toastPromise, {
+        render: 'Minted!',
+        type: 'success',
+        autoClose: 2000,
+        theme: 'dark',
+        isLoading: false,
+      });
+    }
   } catch (e) {
     setIsMinting(false);
     toast.update(toastPromise, {

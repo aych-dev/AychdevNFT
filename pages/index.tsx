@@ -36,10 +36,10 @@ export default function Home() {
           </div>
         </div>
         <div className='grid grid-col items-center justify-center'>
-          <div>
+          <div className='p-2'>
             <Image src={AychDevNft} alt='aychdev' height={200} />
           </div>
-          <h1 className='text-purple-800 font-bold font-serif text-3xl p-2 flex items-center justify-center'>
+          <h1 className='text-purple-800 font-bold font-serif text-3xl flex items-center justify-center'>
             AychNFT
           </h1>
           <div className='flex items-center justify-center'>

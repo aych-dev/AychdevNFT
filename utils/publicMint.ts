@@ -14,7 +14,6 @@ import {
   some,
 } from '@metaplex-foundation/umi';
 import { setComputeUnitLimit } from '@metaplex-foundation/mpl-toolbox';
-import { sol } from '@metaplex-foundation/js';
 import { Dispatch, SetStateAction } from 'react';
 import { toast } from 'react-toastify';
 
@@ -61,9 +60,8 @@ export const publicMint = async (
           collectionUpdateAuthority: candyMachine.authority,
           mintArgs: {
             solPayment: some({
-              lamports: sol(0.1),
               destination: publicKey(
-                'E8nesKaD6AF61YJqDZs217guz2oSfN24ooaaZtuXGAo6'
+                'GbHrG8kPWnj8sS4GkW8ujdeaqbRfqFfJTk6UdQxiM6dz'
               ),
             }),
           },

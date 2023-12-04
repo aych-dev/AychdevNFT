@@ -12,9 +12,10 @@ import {
 import type { AppProps } from 'next/app';
 import { useMemo } from 'react';
 import { ToastContainer } from 'react-toastify';
-import '@/styles/globals.css';
-import 'react-toastify/dist/ReactToastify.css';
+
 require('@solana/wallet-adapter-react-ui/styles.css');
+require('react-toastify/dist/ReactToastify.css');
+require('../styles/globals.css');
 
 export default function App({ Component, pageProps }: AppProps) {
   if (!process.env.NEXT_PUBLIC_RPC_ENDPOINT) throw new Error('Missing RPC URL');

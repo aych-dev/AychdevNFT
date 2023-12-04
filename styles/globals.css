@@ -5,3 +5,20 @@
 body {
   background-color: lightgray;
 }
+
+/* Base button styles */
+button.wallet-adapter-button-trigger {
+  cursor: pointer;
+  color: white !important;
+  border: none !important; /* Remove border or set to 'none' */
+  border-radius: 5% !important; /* Make the button rounded */
+  background-color: #ab9ff2 !important;
+  padding: 10px 20px;
+  font-size: 18px;
+}
+
+/* Hover styles */
+button.wallet-adapter-button-trigger:hover {
+  background-color: white !important;
+  color: #ab9ff2 !important;
+}

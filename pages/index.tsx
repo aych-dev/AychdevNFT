@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import Mint from '@/components/Mint';
 import Image from 'next/image';
 import AychDevNft from '../public/aychdevnft.png';
-import '@solana/wallet-adapter-react-ui/styles.css';
+
 
 const WalletMultiButtonDynamic = dynamic(
   async () =>

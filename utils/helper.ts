@@ -8,7 +8,7 @@ import { publicKey } from '@metaplex-foundation/umi';
 const RPC = process.env.NEXT_PUBLIC_RPC_ENDPOINT;
 const candyMachineId = process.env.NEXT_PUBLIC_CANDY_MACHINE_ID;
 
-export const useCandyMachine = async () => {
+export const checkCandyMachine = async () => {
   if (!RPC || !candyMachineId) {
     return;
   }

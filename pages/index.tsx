@@ -1,5 +1,5 @@
 import dynamic from 'next/dynamic';
-import { useCandyMachine } from '@/utils/helper';
+import { checkCandyMachine } from '@/utils/helper';
 import { CandyMachine } from '@metaplex-foundation/mpl-candy-machine';
 import { useEffect, useState } from 'react';
 import Mint from '@/components/Mint';
@@ -19,7 +19,7 @@ export default function Home() {
 
   useEffect(() => {
     const fetchCandyMachine = async () => {
-      const cm = await useCandyMachine();
+      const cm = await checkCandyMachine();
       setCandyMachine(cm);
       setIsLoading(false);
     };

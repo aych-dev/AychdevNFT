@@ -17,7 +17,6 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isMinting, setIsMinting] = useState<boolean>(false);
 
-  console.log(isLoading);
   useEffect(() => {
     const fetchCandyMachine = async () => {
       const cm = await useCandyMachine();

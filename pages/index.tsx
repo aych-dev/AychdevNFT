@@ -1,10 +1,17 @@
+import dynamic from 'next/dynamic';
 import { checkCandyMachine } from '@/utils/helper';
 import { CandyMachine } from '@metaplex-foundation/mpl-candy-machine';
 import { useEffect, useState } from 'react';
 import Mint from '@/components/Mint';
 import Image from 'next/image';
 import AychDevNft from '../public/aychdevnft.png';
-import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
+import '@solana/wallet-adapter-react-ui/styles.css';
+
+const WalletMultiButtonDynamic = dynamic(
+  async () =>
+    (await import('@solana/wallet-adapter-react-ui')).WalletMultiButton,
+  { ssr: false }
+);
 
 export default function Home() {
   const [candyMachine, setCandyMachine] = useState<CandyMachine>();
@@ -25,7 +32,7 @@ export default function Home() {
       <div className='bg-gray-300 rounded border shadow-xl min-w-full'>
         <div className='flex items-center justify-center'>
           <div className='mb-12 p-2'>
-            <WalletMultiButton />
+            <WalletMultiButtonDynamic />
           </div>
         </div>
         <div className='grid grid-col items-center justify-center'>

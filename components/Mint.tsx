@@ -31,7 +31,7 @@ const Mint = ({ isMinting, setIsMinting }: MintProps) => {
         </button>
       ) : (
         <button
-          className='btn  btn-primary font-bold'
+          className='btn  btn-primary font-semibold'
           onClick={() => publicMint(wallet, setIsMinting)}
         >
           Mint

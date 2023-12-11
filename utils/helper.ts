@@ -7,22 +7,14 @@ import { publicKey } from '@metaplex-foundation/umi';
 import axios from 'axios';
 
 const candyMachineId = '6C5AeSViNzw5mQxTN1HGbort5QmKMtUyjZxQMJYBwQ5S';
+const RPC = 'https://fancy-daphna-fast-mainnet.helius-rpc.com/';
 
 export const checkCandyMachine = async () => {
-  try {
-    const res = await axios.get('/api/rpc');
-    const { RPC } = res.data;
-    if (!RPC || !candyMachineId) {
-      return;
-    }
-    const umi = createUmi(RPC);
-    const candyMachine: CandyMachine = await fetchCandyMachine(
-      umi,
-      publicKey(candyMachineId)
-    );
+  const umi = createUmi(RPC);
+  const candyMachine: CandyMachine = await fetchCandyMachine(
+    umi,
+    publicKey(candyMachineId)
+  );
 
-    return candyMachine;
-  } catch (error) {
-    console.error('No RPC');
-  }
+  return candyMachine;
 };

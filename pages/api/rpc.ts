@@ -1,7 +1,10 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 
-export default (req: NextApiRequest, res: NextApiResponse) => {
-  const RPC = process.env.NEXT_PUBLIC_RPC_ENDPOINT;
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
+  const { NEXT_PUBLIC_RPC_ENDPOINT } = process.env;
 
-  res.status(200).json({ RPC });
-};
+  res.status(200).json({ RPC: NEXT_PUBLIC_RPC_ENDPOINT });
+}

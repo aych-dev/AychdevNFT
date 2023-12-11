@@ -4,19 +4,25 @@ import {
   fetchCandyMachine,
 } from '@metaplex-foundation/mpl-candy-machine';
 import { publicKey } from '@metaplex-foundation/umi';
+import axios from 'axios';
 
-const RPC = process.env.NEXT_PUBLIC_RPC_ENDPOINT;
 const candyMachineId = '6C5AeSViNzw5mQxTN1HGbort5QmKMtUyjZxQMJYBwQ5S';
 
 export const checkCandyMachine = async () => {
-  if (!RPC || !candyMachineId) {
-    return;
-  }
-  const umi = createUmi(RPC);
-  const candyMachine: CandyMachine = await fetchCandyMachine(
-    umi,
-    publicKey(candyMachineId)
-  );
+  try {
+    const res = await axios.get('/api/rpc');
+    const { RPC } = res.data;
+    if (!RPC || !candyMachineId) {
+      return;
+    }
+    const umi = createUmi(RPC);
+    const candyMachine: CandyMachine = await fetchCandyMachine(
+      umi,
+      publicKey(candyMachineId)
+    );
 
-  return candyMachine;
+    return candyMachine;
+  } catch (error) {
+    console.error('No RPC');
+  }
 };
